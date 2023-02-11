@@ -1,4 +1,4 @@
-name: デプロイ
+name: ビルド & デプロイ
 
 on:
   workflow_dispatch:
@@ -7,13 +7,29 @@ on:
       - main
 
 jobs:
-  deploy:
+  build_and_deploy:
     runs-on: ubuntu-latest
     steps:
       - name: チェックアウト
         uses: actions/checkout@v3
 
-      - name: ファイルを圧縮
+      - name: Node.js セットアップ
+        uses: actions/setup-node@v3
+        with:
+          node-version: 19.6.0
+
+      - name: npm セットアップ
+        run: npm install -g npm@9.4.1
+
+      - name: パッケージインストール
+        run: npm install
+        working-directory: ./bot/
+
+      - name: ビルド
+        uses: npm run build
+        working-directory: ./bot/
+
+      - name: ビルド結果を圧縮
         run: |
           mkdir ./temp/
           cp -r ./docker-compose.yml ./temp/
