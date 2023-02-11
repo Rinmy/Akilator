@@ -31,11 +31,11 @@ jobs:
 
       - name: ビルド結果を圧縮
         run: |
-          mkdir ./temp/
+          mkdir ./temp/bot/
           cp -r ./docker-compose.yml ./temp/
           cp -r ./Dockerfile ./temp/
-          cp -r ./bot/dist/ ./temp/
-          cp -r ./bot/package.json ./temp/
+          cp -r ./bot/dist/ ./temp/bot/
+          cp -r ./bot/package.json ./temp/bot/
           tar -zcvf ./server.tar.gz ./temp/
 
       - name: 秘密鍵の準備
