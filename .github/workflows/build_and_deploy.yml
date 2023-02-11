@@ -31,7 +31,7 @@ jobs:
 
       - name: ビルド結果を圧縮
         run: |
-          mkdir ./temp/bot/
+          mkdir -p ./temp/bot/
           cp -r ./docker-compose.yml ./temp/
           cp -r ./Dockerfile ./temp/
           cp -r ./bot/dist/ ./temp/bot/
