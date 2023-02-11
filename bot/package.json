@@ -1,0 +1,34 @@
+{
+	"name": "akilator",
+	"private": true,
+	"version": "1.0.0",
+	"type": "module",
+	"scripts": {
+		"build": "tsc -p tsconfig.json && tsc-alias -p tsconfig.json",
+		"refresh": "rm -rf ./dist/",
+		"server": "node ./dist/server.js",
+		"start": "npm run refresh; npm run build; npm run server",
+		"format": "prettier --write './**/*.{ts,tsx,html,json}'",
+		"lint:es": "eslint './**/*.{ts,tsx}'",
+		"lint:es:fix": "eslint --fix './**/*.{ts,tsx}'",
+		"lint:style": "stylelint \"./**/*.css\"",
+		"lint:style:fix": "stylelint --fix \"./**/*.css\"",
+		"lint": "npm run lint:es; npm run lint:style",
+		"lint:fix": "npm run lint:es:fix; npm run lint:style:fix",
+		"fix": "npm run lint:fix; npm run format"
+	},
+	"devDependencies": {
+		"eslint": "^8.33.0",
+		"eslint-config-prettier": "^8.6.0",
+		"eslint-config-standard-with-typescript": "^34.0.0",
+		"eslint-plugin-import": "^2.27.5",
+		"prettier": "^2.8.3",
+		"tsc-alias": "^1.8.2",
+		"typescript": "^4.9.5"
+	},
+	"dependencies": {
+		"discord.js": "^14.7.1",
+		"dotenv": "^16.0.3",
+		"node-fetch": "^3.3.0"
+	}
+}

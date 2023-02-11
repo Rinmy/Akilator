@@ -1,0 +1,10 @@
+root = true
+
+[*.json]
+indent_style = tab
+
+[*.ts]
+indent_style = tab
+
+[*.yml]
+indent_size = 2
