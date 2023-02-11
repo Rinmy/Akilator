@@ -51,7 +51,7 @@ jobs:
         run: |
           ssh -oStrictHostKeyChecking=no -i ./private_key ${{ secrets.HOST }} -l ${{ secrets.USER }} -p ${{ secrets.PORT }} "cd ${{ secrets.SERVER_ROOT }} && mkdir -p ./akilator/"
           scp -oStrictHostKeyChecking=no -i ./private_key -P ${{ secrets.PORT }} ./server.tar.gz ${{ secrets.USER }}@${{ secrets.HOST }}:${{ secrets.SERVER_ROOT }}akilator/
-          ssh -oStrictHostKeyChecking=no -i ./private_key ${{ secrets.HOST }} -l ${{ secrets.USER }} -p ${{ secrets.PORT }} "cd ${{ secrets.SERVER_ROOT }}akilator/ && tar xvzf ./server.tar.gz -C ./ --strip-components 2 && rm -f ./server.tar.gz && docker compose build --no-cache && docker compose up -d && docker compose exec -it bot npm install"
+          ssh -oStrictHostKeyChecking=no -i ./private_key ${{ secrets.HOST }} -l ${{ secrets.USER }} -p ${{ secrets.PORT }} "cd ${{ secrets.SERVER_ROOT }}akilator/ && tar xvzf ./server.tar.gz -C ./ --strip-components 2 && rm -f ./server.tar.gz && cp ../env-files/akilator.env ./bot/.env && docker compose build --no-cache && docker compose up -d && docker compose exec -it bot npm install"
 
       - name: BOT起動
         run: |
