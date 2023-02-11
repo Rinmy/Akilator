@@ -32,6 +32,7 @@ jobs:
       - name: ビルド結果を圧縮
         run: |
           pwd
+          ls
           mkdir ./temp/
           cp -r ./docker-compose.yml ./temp/
           cp -r ./Dockerfile ./temp/
