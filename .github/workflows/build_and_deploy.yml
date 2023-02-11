@@ -47,11 +47,11 @@ jobs:
         run: |
           ssh -oStrictHostKeyChecking=no -i ./private_key ${{ secrets.HOST }} -l ${{ secrets.USER }} -p ${{ secrets.PORT }} "cd ${{ secrets.SERVER_ROOT }} && mkdir -p ./akilator/ && cd ./akilator/ && if [ -e ./docker-compose.yml ]; then docker compose down --rmi all --volumes --remove-orphans; fi && rm -rf ./akilator/"
 
-      # - name: デプロイ
-      #   run: |
-      #     ssh -oStrictHostKeyChecking=no -i ./private_key ${{ secrets.HOST }} -l ${{ secrets.USER }} -p ${{ secrets.PORT }} "cd ${{ secrets.SERVER_ROOT }} && mkdir -p ./akilator/"
-      #     scp -oStrictHostKeyChecking=no -i ./private_key -P ${{ secrets.PORT }} ./server.tar.gz ${{ secrets.USER }}@${{ secrets.HOST }}:${{ secrets.SERVER_ROOT }}akilator/
-      #     ssh -oStrictHostKeyChecking=no -i ./private_key ${{ secrets.HOST }} -l ${{ secrets.USER }} -p ${{ secrets.PORT }} "cd ${{ secrets.SERVER_ROOT }}akilator/ && tar xvzf ./server.tar.gz -C ./ --strip-components 2 && rm -f ./server.tar.gz && docker compose build --no-cache && docker compose up -d && docker compose exec -it bot npm install"
+      - name: デプロイ
+        run: |
+          ssh -oStrictHostKeyChecking=no -i ./private_key ${{ secrets.HOST }} -l ${{ secrets.USER }} -p ${{ secrets.PORT }} "cd ${{ secrets.SERVER_ROOT }} && mkdir -p ./akilator/"
+          scp -oStrictHostKeyChecking=no -i ./private_key -P ${{ secrets.PORT }} ./server.tar.gz ${{ secrets.USER }}@${{ secrets.HOST }}:${{ secrets.SERVER_ROOT }}akilator/
+      #    ssh -oStrictHostKeyChecking=no -i ./private_key ${{ secrets.HOST }} -l ${{ secrets.USER }} -p ${{ secrets.PORT }} "cd ${{ secrets.SERVER_ROOT }}akilator/ && tar xvzf ./server.tar.gz -C ./ --strip-components 2 && rm -f ./server.tar.gz && docker compose build --no-cache && docker compose up -d && docker compose exec -it bot npm install"
 
       # - name: BOT起動
       #   run: |
