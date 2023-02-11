@@ -27,7 +27,6 @@ discord.on("messageReactionAdd", async (reaction) => {
 
 	const targetText = reaction.message.content;
 	targetText.replace(/`/g, "'");
-	console.log(targetText);
 
 	const translatedText = await DeepL.translate(targetText);
 	translatedText.replace(/`/g, "'");
