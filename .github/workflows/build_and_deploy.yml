@@ -55,4 +55,4 @@ jobs:
 
       - name: BOT起動
         run: |
-          ssh -oStrictHostKeyChecking=no -i ./private_key ${{ secrets.HOST }} -l ${{ secrets.USER }} -p ${{ secrets.PORT }} "cd ${{ secrets.SERVER_ROOT }}akilator/ && docker compose exec -it bot npm run server"
+          ssh -oStrictHostKeyChecking=no -i ./private_key ${{ secrets.HOST }} -l ${{ secrets.USER }} -p ${{ secrets.PORT }} "cd ${{ secrets.SERVER_ROOT }}akilator/ && docker compose exec -itd bot npm run server"
