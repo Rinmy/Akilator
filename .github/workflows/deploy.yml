@@ -1,0 +1,42 @@
+name: デプロイ
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v3
+
+      - name: ファイルを圧縮
+        run: |
+          mkdir ./temp/
+          cp -r ./docker-compose.yml ./temp/
+          cp -r ./Dockerfile ./temp/
+          cp -r ./bot/dist/ ./temp/
+          cp -r ./bot/package.json /temp/
+          tar -zcvf ./server.tar.gz ./temp/
+
+      - name: 秘密鍵の準備
+        run: |
+          echo "${{ secrets.PRIVATE_KEY }}" > ./private_key
+          chmod 600 ./private_key
+
+      - name: 稼働中のシステムを停止
+        run: |
+          ssh -oStrictHostKeyChecking=no -i ./private_key ${{ secrets.HOST }} -l ${{ secrets.USER }} -p ${{ secrets.PORT }} "cd ${{ secrets.SERVER_ROOT }} && mkdir -p ./akilator/ && cd ./akilator/ && if [ -e ./docker-compose.yml ]; then docker compose down --rmi all --volumes --remove-orphans; fi && rm -rf ./akilator/"
+
+      # - name: デプロイ
+      #   run: |
+      #     ssh -oStrictHostKeyChecking=no -i ./private_key ${{ secrets.HOST }} -l ${{ secrets.USER }} -p ${{ secrets.PORT }} "cd ${{ secrets.SERVER_ROOT }} && mkdir -p ./akilator/"
+      #     scp -oStrictHostKeyChecking=no -i ./private_key -P ${{ secrets.PORT }} ./server.tar.gz ${{ secrets.USER }}@${{ secrets.HOST }}:${{ secrets.SERVER_ROOT }}akilator/
+      #     ssh -oStrictHostKeyChecking=no -i ./private_key ${{ secrets.HOST }} -l ${{ secrets.USER }} -p ${{ secrets.PORT }} "cd ${{ secrets.SERVER_ROOT }}akilator/ && tar xvzf ./server.tar.gz -C ./ --strip-components 2 && rm -f ./server.tar.gz && docker compose build --no-cache && docker compose up -d && docker compose exec -it bot npm install"
+
+      # - name: BOT起動
+      #   run: |
+      #     ssh -oStrictHostKeyChecking=no -i ./private_key ${{ secrets.HOST }} -l ${{ secrets.USER }} -p ${{ secrets.PORT }} "cd ${{ secrets.SERVER_ROOT }}akilator/ && docker compose exec -it bot npm run server"
