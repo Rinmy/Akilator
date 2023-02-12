@@ -18,16 +18,45 @@ export const translate = async (text: string): Promise<string> => {
 		return "APIキーがありません。これがオートロックの罠!?";
 	}
 
+	const emptyArray: number[] = [];
+
+	console.log(text);
+	const targetTextArray = text.split(/\r?\n/g);
+	let replaceTargetTextArray = targetTextArray.map((text, index) => {
+		if (text === "") {
+			emptyArray.push(index);
+		}
+
+		return text.replace(/```/g, "<code>");
+	});
+	console.log(emptyArray);
+	replaceTargetTextArray = replaceTargetTextArray.filter((text) => text !== "");
+	console.log(replaceTargetTextArray);
+
 	let errorMessage = "翻訳システムが動作しませんでした。かなりありえない。";
 	let translatedText = "";
 
 	const translator = new deepl.Translator(DEEPL_API_KEY);
 
 	try {
-		const result = await translator.translateText(text, null, "ja", {
-			ignoreTags: "`"
+		const resultArray = await translator.translateText(replaceTargetTextArray, null, "ja", {
+			tagHandling: "xml",
+			ignoreTags: "code"
 		});
-		translatedText = result.text;
+
+		console.log(resultArray);
+
+		resultArray.forEach((result, index) => {
+			translatedText += result.text;
+			if (index !== resultArray.length - 1) {
+				translatedText += "\n";
+				if (emptyArray.includes(index + 1)) {
+					translatedText += "\n";
+				}
+			}
+		});
+
+		translatedText = translatedText.replace(/<code>/g, "```");
 	} catch (e) {
 		console.error(e);
 		errorMessage = "何かしらのエラーが発生しました。困ったエラーですこれ。";

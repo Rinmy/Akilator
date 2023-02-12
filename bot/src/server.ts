@@ -40,11 +40,8 @@ discord.on("messageReactionAdd", async (reaction) => {
 		return;
 	}
 
-	let targetText = reaction.message.content;
-	targetText = targetText.replace(/```/g, "<code>");
-
-	let translatedText = await DeepL.translate(targetText);
-	translatedText = translatedText.replace(/<code>/g, "```");
+	const translatedText = await DeepL.translate(reaction.message.content);
+	console.log(translatedText);
 
 	const translatedEmbed = new Discord.EmbedBuilder()
 		.setColor(0x0099ff)
