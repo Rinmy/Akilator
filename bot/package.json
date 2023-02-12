@@ -6,8 +6,10 @@
 	"scripts": {
 		"build": "tsc -p tsconfig.json && tsc-alias -p tsconfig.json",
 		"refresh": "rm -rf ./dist/",
-		"server": "node ./dist/server.js",
+		"server": "MODE=prod node ./dist/server.js",
+		"server:dev": "MODE=dev node ./dist/server.js",
 		"start": "npm run refresh; npm run build; npm run server",
+		"start:dev": "npm run refresh; npm run build; npm run server:dev",
 		"format": "prettier --write './**/*.{ts,tsx,html,json}'",
 		"lint:es": "eslint './**/*.{ts,tsx}'",
 		"lint:es:fix": "eslint --fix './**/*.{ts,tsx}'",
@@ -27,6 +29,7 @@
 		"typescript": "^4.9.5"
 	},
 	"dependencies": {
+		"deepl-node": "^1.8.0",
 		"discord.js": "^14.7.1",
 		"dotenv": "^16.0.3",
 		"node-fetch": "^3.3.0"
