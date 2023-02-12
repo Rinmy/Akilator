@@ -35,6 +35,7 @@ jobs:
           cp -r ./docker-compose.yml ./temp/
           cp -r ./Dockerfile ./temp/
           cp -r ./bot/dist/ ./temp/bot/
+          cp -r ./bot/emoji/ ./temp/bot/
           cp -r ./bot/package.json ./temp/bot/
           tar -zcvf ./server.tar.gz ./temp/
 
