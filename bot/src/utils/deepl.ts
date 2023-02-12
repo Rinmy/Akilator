@@ -24,7 +24,7 @@ export const translate = async (text: string): Promise<string> => {
 	const targetTextArray = text.split(/\r?\n/g);
 	let replaceTargetTextArray = targetTextArray.map((text, index) => {
 		if (text === "") {
-			emptyArray.push(index);
+			emptyArray.push(index - emptyArray.length);
 		}
 
 		return text.replace(/```/g, "<code>");
