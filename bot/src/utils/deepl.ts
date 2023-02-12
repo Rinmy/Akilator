@@ -1,6 +1,5 @@
 import * as dotenv from "dotenv";
-import fetch from "node-fetch";
-import { type DeeplResponseType } from "@/interface.js";
+import * as deepl from "deepl-node";
 
 // .env参照
 dotenv.config();
@@ -22,22 +21,17 @@ export const translate = async (text: string): Promise<string> => {
 	let errorMessage = "翻訳システムが動作しませんでした。かなりありえない。";
 	let translatedText = "";
 
-	const API_URL = `https://api-free.deepl.com/v2/translate?auth_key=${DEEPL_API_KEY}&text=${text}&target_lang=JA`;
+	const translator = new deepl.Translator(DEEPL_API_KEY);
 
 	try {
-		const res = await fetch(API_URL);
-		if (!res.ok) {
-			throw new Error(`${res.status} ${res.statusText}`);
-		}
-
-		const data = (await res.json()) as DeeplResponseType;
-		translatedText = data.translations[0].text;
-		if (translatedText === "") {
-			translatedText = "🤔";
-		}
+		const result = await translator.translateText(text, null, "ja", {
+			ignoreTags: "`"
+		});
+		translatedText = result.text;
 	} catch (e) {
 		console.error(e);
 		errorMessage = "何かしらのエラーが発生しました。困ったエラーですこれ。";
+		translatedText = errorMessage;
 	} finally {
 		if (translatedText === "") {
 			translatedText = errorMessage;
