@@ -9,6 +9,10 @@ init:
 start:
 	docker compose start
 
+restart:
+	@make down
+	@make init
+
 bash:
 	docker compose exec -it bot bash
 
@@ -16,8 +20,8 @@ down:
 	docker compose down --rmi all --volumes --remove-orphans
 
 package-reset:
-	docker compose exec -it bot rm ./package-lock.json
-	docker compose exec -it bot rm -r ./node_modules/
+	docker compose exec -it bot rm -f ./package-lock.json
+	docker compose exec -it bot rm -rf ./node_modules/
 
 npm-install:
 	@make package-reset
