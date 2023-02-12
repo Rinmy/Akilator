@@ -41,7 +41,6 @@ discord.on("messageReactionAdd", async (reaction) => {
 	}
 
 	const translatedText = await DeepL.translate(reaction.message.content);
-	console.log(translatedText);
 
 	const translatedEmbed = new Discord.EmbedBuilder()
 		.setColor(0x0099ff)

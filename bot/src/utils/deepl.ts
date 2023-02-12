@@ -20,7 +20,6 @@ export const translate = async (text: string): Promise<string> => {
 
 	const emptyArray: number[] = [];
 
-	console.log(text);
 	const targetTextArray = text.split(/\r?\n/g);
 	let replaceTargetTextArray = targetTextArray.map((text, index) => {
 		if (text === "") {
@@ -29,9 +28,7 @@ export const translate = async (text: string): Promise<string> => {
 
 		return text.replace(/```/g, "<code>");
 	});
-	console.log(emptyArray);
 	replaceTargetTextArray = replaceTargetTextArray.filter((text) => text !== "");
-	console.log(replaceTargetTextArray);
 
 	let errorMessage = "翻訳システムが動作しませんでした。かなりありえない。";
 	let translatedText = "";
@@ -43,8 +40,6 @@ export const translate = async (text: string): Promise<string> => {
 			tagHandling: "xml",
 			ignoreTags: "code"
 		});
-
-		console.log(resultArray);
 
 		resultArray.forEach((result, index) => {
 			translatedText += result.text;
